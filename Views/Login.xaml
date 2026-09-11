@@ -6,14 +6,15 @@
         xmlns:viewModels="clr-namespace:LoginMVVM.ViewModels"
         Title="Login"
         Height="350"
-        Width="400">
+        Width="400"
+        Background="#4C1D95">
 
     <Window.DataContext>
         <viewModels:LoginViewModel />
     </Window.DataContext>
 
     <Grid Margin="30"
-         Background="{StaticResource BackgroundBrush}">
+         Background="#4C1D95">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -29,11 +30,14 @@
                    Text="Login"
                    FontSize="24"
                    FontWeight="Bold"
+                   Foreground="White"
                    HorizontalAlignment="Center"
                    Margin="0,0,0,25"/>
 
         <!-- Username -->
         <TextBlock Grid.Row="1"
+                   Foreground="White"
+                   FontWeight="SemiBold"
                    Text="Username"
                    Margin="0,0,0,5"/>
 
@@ -45,6 +49,8 @@
         <!-- Password -->
         <TextBlock Grid.Row="3"
                    Text="Password"
+                   FontWeight="SemiBold"
+                     Foreground="White"
                    Margin="0,0,0,5"/>
 
         <TextBox Grid.Row="4"
@@ -58,7 +64,7 @@
         Height="40"
         Content="Login"
         Foreground="White"
-        Background="{StaticResource PrimaryBrush}"
+       Background="#2563EB"
         BorderThickness="0"
         HorizontalAlignment="Center"
         Command="{Binding LoginCommand}"/>

@@ -1,14 +1,15 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Input;
 using LoginMVVM.Commands;
-
+using LoginMVVM.Views;
 
 namespace LoginMVVM.ViewModels
 {
@@ -44,50 +45,50 @@ namespace LoginMVVM.ViewModels
             LoginCommand = new RelayCommand(Login);
         }
 
-        
-            
-     private void Login()
-{
-    try
-    {
-        // Read users.json
-        string json = File.ReadAllText(
-    @"C:\Users\Sangavi\OneDrive\Desktop\WPF\LoginMVVM\Views\users.json");
+        private void Login()
+        {
+            try
+            {
+                string json = File.ReadAllText(
+                    @"C:\Users\Sangavi\OneDrive\Desktop\WPF\LoginMVVM\Views\users.json");
 
-        // Convert JSON into User objects
-       List<User> users = JsonSerializer.Deserialize<List<User>>(json)
+                List<User> users =
+                    JsonSerializer.Deserialize<List<User>>(json)
                     ?? new List<User>();
 
-User? user = users.FirstOrDefault(
-    u => u.Username == Username &&
-         u.Password == Password);
-        if (user != null)
-            
-        {
-            // Step 1
-            MessageBox.Show(
-                "Login successful!",
-                "Step 1");
+                User? user = users.FirstOrDefault(
+                    u => u.Username == Username &&
+                         u.Password == Password);
 
-            // After clicking OK, Step 2 appears
-            MessageBox.Show(
-                "Welcome to Dashboard!",
-                "Step 2");
-        }
-        else
-        {
-            MessageBox.Show(
-                "Invalid username or password",
-                "Login Failed");
-        }
-    }
-    catch (Exception ex)
-    {
-        MessageBox.Show(ex.Message, "Error");
-    }
-}
+                if (user != null)
+                {
+                    MessageBox.Show(
+                        "Login successful!",
+                        "Step 1");
 
-        
+                    Dashboard dashboard = new Dashboard();
+
+                    dashboard.Show();
+
+                    Application.Current.Windows
+                        .OfType<Login>()
+                        .FirstOrDefault()
+                        ?.Close();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Invalid username or password",
+                        "Login Failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error");
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -103,10 +104,9 @@ User? user = users.FirstOrDefault(
     public class User
     {
         [JsonPropertyName("username")]
-    public string Username { get; set; } = "";
+        public string Username { get; set; } = "";
 
-    [JsonPropertyName("password")]
-    public string Password { get; set; } = "";
+        [JsonPropertyName("password")]
+        public string Password { get; set; } = "";
     }
 }
-
